@@ -1,0 +1,275 @@
+    :root {
+        --background-color: #0B0B0F;
+        --navbar-color: red;
+        --accent-one: #171717;
+        --accent-two: #4F4F4F;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+    * {
+        font-family: 'Inter', sans-serif;
+        font-weight: 400;
+    }
+
+    #cursor {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        pointer-events: none;
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    #cursor::after {
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 5px;
+        transform-origin: top center;
+        top: -10px;
+        left: 50%;
+        margin-left: -5px;
+    }
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: var(--background-color);
+    }
+
+    .page {
+        scroll-snap-align: start;
+    }
+
+    #container {
+        scroll-snap-type: y mandatory;
+        overflow-y: scroll;
+        scroll-behavior: smooth;
+        height: 100vh;
+        width: 100vw;
+        scrollbar-width: thin;
+        scrollbar-color: transparent transparent;
+    }
+
+    #container::-webkit-scrollbar {
+        width: 0rem;
+        background-color: transparent;
+    }
+
+    #container::-webkit-scrollbar-track {
+        background-color: transparent;
+        width: 0;
+        height: 0;
+    }
+
+    #container::-webkit-scrollbar-thumb {
+        background-color: transparent;
+        width: 0;
+        height: 0;
+    }
+
+    #page1 {
+        width: 100vw;
+        height: 100vh;
+
+
+    }
+
+    #page2 {
+        width: 100vw;
+        height: 100vh;
+        background-color: green;
+    }
+
+    #page3 {
+        width: 100vw;
+        height: 100vh;
+        background-color: yellow;
+    }
+
+    #nav-bar {
+        width: 100vw;
+        height: 7%;
+        font-size: 80%;
+        position: absolute;
+        align-self: center;
+        display: flex;
+        align-items: center;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        color: white;
+        border-radius: 10px;
+        top: 0%;
+        justify-content: space-between;
+        z-index: 10;
+    }
+
+    #logo {
+        width: 10%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+
+    }
+
+    #logo p {
+        font-size: 1.4em;
+        font-weight: 600;
+    }
+
+    #buttons {
+        width: 20%;
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    #buttons p {
+        font-size: 1.2em;
+        font-weight: 500;
+    }
+
+    #buttons button {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 70%;
+        height: 60%;
+        background-color: rgb(24, 24, 24);
+        color: white;
+        border: 0;
+        border-radius: 10px;
+        font-size: 1em;
+        transition: all 0.3s;
+    }
+
+    #buttons button img {
+        width: 20px;
+        height: 20px;
+        margin-top: 4px;
+    }
+
+    #buttons button:hover {
+        background-color: var(--accent-two);
+        color: var(--background-color);
+        width: 50%;
+        height: 70%;
+    }
+
+    #top {
+        width: 100%;
+
+        height: 40%;
+        display: flex;
+        align-items: end;
+        justify-content: center;
+    }
+
+    #top #box {
+        width: 500px;
+        height: 190px;
+        z-index: 10000;
+        text-align: center;
+    }
+
+    #bottom {
+        width: 100%;
+        height: 60%;
+        display: flex;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    #bottom #box {
+        width: 80%;
+        height: 100%;
+        background-color: black;
+        margin-top: 10px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        padding: 10px
+    }
+
+    #top #box p {
+        color: var(--accent-two);
+        font-weight: 400;
+    }
+
+    #top #box h2 {
+        color: white;
+        margin: 0px 100px;
+        font-size: 2em;
+        font-weight: 600;
+    }
+
+    #bottom-text {
+        width: 100%;
+        height: 30%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent-two);
+        font-weight: 400;
+    }
+
+    #bottom-text div {
+        color: black;
+        background-color: var(--accent-two);
+        width: 17px;
+        height: 23px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        border-radius: 5px;
+        margin: 7px;
+    }
+
+    #bottom #box #monitor {
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        border-radius: 10px;
+    }
+
+    #bottom #box #monitor #task-bar #text {
+        color: white;
+        font-size: 0.8em;
+        width: 40%;
+        display: flex;
+        height: 100%;
+        align-items: center;
+        justify-content: space-evenly;
+        font-weight: 900;
+    }
+
+    #bottom #box #monitor #task-bar #logo {
+        width: 4%;
+        display: flex;
+        height: 100%;
+        align-items: center;
+        justify-content: space-evenly;
+        font-weight: 700;
+    }
+
+    #bottom #box #monitor #task-bar #logo img {
+        width: 17px
+    }
+
+    #terminal-frame {
+        width: 100%;
+        border: 0;
+        height: calc(100% - 15px)
+    }

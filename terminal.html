@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Terminal</title>
+  <style>
+    body {
+      background-color: rgb(0, 0, 0);
+      color: white
+    }
+
+    * {
+      font-family: monospace;
+    }
+
+    #terminal {
+      padding: 10px;
+    }
+
+    #inputLine::before {
+      content: "X1OS C:/Users/X1OS/ > ";
+      display: inline-block;
+      padding-right: 5px;
+    }
+
+    #commandInput {
+      caret-shape: block;
+      background-color: transparent;
+      border: none;
+      outline: none;
+      color: white;
+      width: 80%;
+
+    }
+  </style>
+</head>
+
+<body>
+  <div id="terminal">
+    <div id="output">
+      <div>X1OS-LABS CLI Beta [Version 1.23.12]</div>
+      <div>(c) X1OS Corporation. All rights reserved.</div>
+      <div><br></div>
+    </div>
+    <div id="inputLine">
+      <input id="commandInput" type="text" autofocus />
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var outputDiv = document.getElementById("output");
+      var commandInput = document.getElementById("commandInput");
+      var commandHistory = [];
+      var commandIndex = -1;
+
+      commandInput.addEventListener("keydown", function (event) {
+        if (event.key === "ArrowUp") {
+          event.preventDefault();
+          navigateCommandHistory("previous");
+        } else if (event.key === "ArrowDown") {
+          event.preventDefault();
+          navigateCommandHistory("next");
+        }
+      });
+
+      commandInput.addEventListener("keyup", function (event) {
+        if (event.keyCode === 13) {
+          var command = commandInput.value;
+          commandHistory.push(command);
+          commandIndex = commandHistory.length;
+
+          var outputLine = document.createElement("div");
+          outputLine.textContent = "X1OS C:/Users/X1OS/ > " + command;
+          outputDiv.appendChild(outputLine);
+
+          processCommand(command);
+
+          commandInput.value = "";
+        }
+      });
+
+      function navigateCommandHistory(direction) {
+        if (direction === "previous" && commandIndex > 0) {
+          commandIndex--;
+        } else if (direction === "next" && commandIndex < commandHistory.length - 1) {
+          commandIndex++;
+        }
+
+        commandInput.value = commandHistory[commandIndex] || "";
+      }
+
+      function processCommand(command) {
+        if (command === "cls") {
+          outputDiv.innerHTML = ""; // Clear the screen
+        } else if (command.startsWith("echo ")) {
+          var output = command.substring(5); // Remove the "echo " prefix
+          var outputLine = document.createElement("div");
+          outputLine.textContent = output;
+          outputDiv.appendChild(outputLine);
+        } else if (command === 'systeminfo') {
+          displaySystemInfo();
+        } else if (command === 'arp /a', command === 'arp -a') {
+          displayArpInfo();
+        } else if (command === 'ipconfig') {
+          displayIpConfig();
+        } else if (command.startsWith("dir")) {
+          displayMockDir(command);
+        } else if (command === 'exit') {
+          window.close()
+        } else if (command === 'reload') {
+          location.reload()
+        } else if (command.startsWith("color")) {
+          var output = command.substring(6);
+          document.body.style.color = output;
+          document.getElementById("commandInput").style.Color = output;
+        } else {
+          var outputLine = document.createElement("div");
+          outputLine.textContent = "'" + command + "' is not recognized as an internal or external command,\noperable program or batch file.";
+          outputDiv.appendChild(outputLine);
+        }
+      }
+
+      function displaySystemInfo() {
+        // Loading simulation
+        var loadingLine = document.createElement("div");
+        loadingLine.textContent = "Loading system information...";
+        outputDiv.appendChild(loadingLine);
+
+        setTimeout(function () {
+          outputDiv.removeChild(loadingLine);
+          var systemInfo = `
+            Host Name:                 X1-4864RDDJ
+            OS Name:                   X1OS LABS
+            OS Version:                10.0.19044 N/A Build 19044
+            OS Manufacturer:           X1OS Corporation
+            OS Configuration:          Standalone Workstation
+            OS Build Type:             Multiprocessor Free
+            Registered Owner:          
+            Registered Organization:   MSI
+            Product ID:                00356-02409-67743-AAOEM
+            Original Install Date:     12/05/2001, 5:28:49 AM
+            System Boot Time:          1/06/2001, 7:03:21 AM
+            System Manufacturer:       X1
+            System Type:               x64-based PC
+            Processor(s):              8 Processor(s) Installed.
+                                      [01]: Intel64 Family 6 Model 122 Stepping 8 GenuineIntel ~1101 Mhz
+                                      [02]: Intel64 Family 6 Model 122 Stepping 8 GenuineIntel ~1101 Mhz
+                                      [03]: Intel64 Family 6 Model 122 Stepping 8 GenuineIntel ~1101 Mhz
+                                      [04]: Intel64 Family 6 Model 122 Stepping 8 GenuineIntel ~1101 Mhz
+                                      [05]: Intel64 Family 6 Model 122 Stepping 8 GenuineIntel ~1101 Mhz
+                                      [06]: Intel64 Family 6 Model 122 Stepping 8 GenuineIntel ~1101 Mhz
+                                      [07]: Intel64 Family 6 Model 122 Stepping 8 GenuineIntel ~1101 Mhz
+                                      [08]: Intel64 Family 6 Model 122 Stepping 8 GenuineIntel ~1101 Mhz
+            BIOS Version:              Insyde F.63, 25/03/2021
+            Windows Directory:         8D:\X1OS
+            System Directory:          8D:\X1OS\
+            Boot Device:               \Device\HarddiskVolume1
+            System Locale:             en-us;English (United States)
+            Input Locale:              en-us;English (United States)
+            Time Zone:                 (UTC+10:00) Canberra, Melbourne, Sydney
+            Total Physical Memory:     70,954 MB
+            Available Physical Memory: 40,240 MB
+            Virtual Memory: Max Size:  400,722 MB
+            Virtual Memory: Available: 360,130 MB
+            Virtual Memory: In Use:    40,592 MB
+            Domain:                    WORKGROUP
+            Logon Server:              \\LAPTOP-4864RDDJ
+            Hotfix(s):                 24 Hotfix(s) Installed.
+                                      [01]: KB5022502
+                                      [02]: KB4534170
+                                      [03]: KB4537759
+                                      [04]: KB4545706
+                                      [05]: KB4562830
+                                      [06]: KB4586864
+                                      [07]: KB5003791
+                                      [08]: KB5005716
+                                      [09]: KB5012170
+                                      [10]: KB5008575
+                                      [11]: KB5026361
+                                      [12]: KB5007273
+                                      [13]: KB5011352
+                                      [14]: KB5011651
+                                      [15]: KB5014032
+                                      [16]: KB5014035
+                                      [17]: KB5014671
+                                      [18]: KB5015895
+                                      [19]: KB5016705
+                                      [20]: KB5018506
+                                      [21]: KB5020372
+                                      [22]: KB5022924
+                                      [23]: KB5023794
+                                      [24]: KB5025315
+            Network Card(s):           3 NIC(s) Installed.
+                                      [01]: Realtek PCIe GbE Family Controller
+                                            Connection Name: Ethernet
+                                            Status:          Media disconnected
+                                      [02]: Realtek RTL8821CE 802.11ac PCIe Adapter
+                                            Connection Name: Wi-Fi
+                                            DHCP Enabled:    Yes
+                                            DHCP Server:     127.0.0.0
+                                            IP address(es)
+                                            [01]: 127.0.0.0
+                                            [02]: asf9:190h:90gs:91h2
+                                      [03]: Bluetooth Device (Personal Area Network)
+                                            Connection Name: Bluetooth Network Connection
+                                            Status:          Media disconnected
+          `;
+
+          var outputLines = systemInfo.split("\n");
+          outputLines.forEach(function (line) {
+            var outputLine = document.createElement("div");
+            outputLine.textContent = line;
+            outputDiv.appendChild(outputLine);
+          });
+        }, 1000);
+      }
+
+      function displayArpInfo() {
+        // Loading simulation
+        var loadingLine = document.createElement("div");
+        loadingLine.textContent = "Loading ARP table...";
+        outputDiv.appendChild(loadingLine);
+
+        setTimeout(function () {
+          outputDiv.removeChild(loadingLine);
+          var arpInfo = `
+            Interface: 192.168.20.9 --- 0xb
+              Internet Address      Physical Address      Type
+              192.168.20.1         aa-bb-cc-dd-ee-ff     dynamic
+              192.168.20.255       ff-ff-ff-ff-ff-ff     static
+          `;
+
+          var outputLines = arpInfo.split("\n");
+          outputLines.forEach(function (line) {
+            var outputLine = document.createElement("div");
+            outputLine.textContent = line;
+            outputDiv.appendChild(outputLine);
+          });
+        }, 1000);
+      }
+
+      function displayIpConfig() {
+        // Loading simulation
+        var loadingLine = document.createElement("div");
+        loadingLine.textContent = "Loading IP configuration...";
+        outputDiv.appendChild(loadingLine);
+
+        setTimeout(function () {
+          outputDiv.removeChild(loadingLine);
+          var ipConfigInfo = `
+            Windows IP Configuration
+
+            Ethernet adapter Ethernet:
+               Connection-specific DNS Suffix  . :
+               IPv4 Address. . . . . . . . . . . : 192.168.20.9
+               Subnet Mask . . . . . . . . . . . : 255.255.255.0
+               Default Gateway . . . . . . . . . : 192.168.20.1
+
+            Ethernet adapter Ethernet 2:
+               Media State . . . . . . . . . . . : Media disconnected
+          `;
+
+          var outputLines = ipConfigInfo.split("\n");
+          outputLines.forEach(function (line) {
+            var outputLine = document.createElement("div");
+            outputLine.textContent = line;
+            outputDiv.appendChild(outputLine);
+          });
+        }, 1000);
+      }
+
+      function displayMockDir(command) {
+        var options = command.split(" ").slice(1);
+        var path = ".";
+        var recursive = false;
+        var showHidden = false;
+
+        options.forEach(function (option) {
+          if (option === "/s") {
+            recursive = true;
+          } else if (option === "/a") {
+            showHidden = true;
+          } else if (option.startsWith("/")) {
+            path = option.substring(1);
+          } else {
+            path = option;
+          }
+        });
+
+        // Loading simulation
+        var loadingLine = document.createElement("div");
+        loadingLine.textContent = "Loading directory listing...";
+        outputDiv.appendChild(loadingLine);
+
+        setTimeout(function () {
+          outputDiv.removeChild(loadingLine);
+          var mockDirOutput = `
+            Directory of ${path}
+
+            31/05/2023  03:59 PM    <DIR>          Documents
+            31/05/2023  04:02 PM    <DIR>          Downloads
+            31/05/2023  04:05 PM    <DIR>          Pictures
+            31/05/2023  04:08 PM    <DIR>          Music
+          `;
+
+          var outputLines = mockDirOutput.split("\n");
+          outputLines.forEach(function (line) {
+            var outputLine = document.createElement("div");
+            outputLine.textContent = line;
+            outputDiv.appendChild(outputLine);
+          });
+        }, 1000);
+      }
+    });
+  </script>
+</body>
+
+</html>

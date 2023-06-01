@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>X1OS | Home</title>
+  <link rel="icon" href="invalidpng" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    var idleTimer;
+    var scrolling = false;
+
+    function resetIdleTimer() {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(scrollToNearestPage, 50);
+    }
+
+    function scrollToNearestPage() {
+      if (scrolling) return;
+
+      scrolling = true;
+      var container = document.getElementById("container");
+      var currentPage = Math.round(container.scrollTop / window.innerHeight);
+      container.scrollTo({
+        top: currentPage * window.innerHeight,
+        behavior: "smooth"
+      });
+      setTimeout(function () {
+        scrolling = false;
+      }, 500);
+    }
+
+    window.onload = function () {
+      var container = document.getElementById("container");
+
+      container.addEventListener("scroll", function () {
+        resetIdleTimer();
+      });
+
+      var pages = document.getElementsByClassName("page");
+      for (var i = 0; i < pages.length; i++) {
+        var page = pages[i];
+        page.style.height = window.innerHeight + "px";
+        page.style.width = window.innerWidth + "px";
+      }
+    }
+  </script>
+  <script src="onloadanimate.js" defer></script>
+  <script>
+    // Check browser support for Page Visibility API
+    if (typeof document.hidden !== "undefined") {
+      // Set the name of the hidden property and the visibility change event
+      var hidden = "hidden";
+      var visibilityChange = "visibilitychange";
+
+      // Update the page icon and title when visibility changes
+      document.addEventListener(visibilityChange, function () {
+        if (document[hidden]) {
+          changeIconAndTitle("", "ㅤ");
+        } else {
+          const delayInMilliseconds = 50
+          setTimeout(function () {
+            changeIconAndTitle("logo.svg", "X1OS");
+            setTimeout(function () {
+              changeIconAndTitle("logo.svg", "X1OS | Home");
+            }, delayInMilliseconds);
+          }, delayInMilliseconds);
+        }
+      });
+    }
+
+    // Function to change the document's icon and title
+    function changeIconAndTitle(iconPath, title) {
+      var icon = document.querySelector("link[rel='icon']");
+      var titleElement = document.querySelector("title");
+
+      if (icon) {
+        icon.href = iconPath;
+      }
+
+      if (titleElement) {
+        titleElement.innerText = title;
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div id="cursor"></div>
+  <div id="container">
+
+    <div id="nav-bar" data-animation="from-top">
+      <div id="logo" data-animation="from-left">
+        <p>X1OS</p>
+      </div>
+      <div id="buttons" data-animation="from-right">
+        <p>Login</p>
+        <button>
+          <span>
+            <img src="Vector.svg" alt="">
+          </span>
+          <p>Request Access</p>
+          <span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <div class="page" id="page1">
+      <div id="top" data-animation="from-top">
+        <div id="box">
+          <p>Avalible Now</p>
+          <h2>The Ultamate Multi Platform Utility CLI</h2>
+          <div id="bottom-text">
+            <p>Press
+            <div> R </div> to request Access</p>
+          </div>
+        </div>
+      </div>
+      <div id="bottom" data-animation="from-bottom">
+        <div id="box">
+          <div id="monitor">
+            <iframe src="terminal.html" title="Terminal" id="terminal-frame" data-animation="opacity"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page" id="page2" data-animation="opacity"></div>
+    <div class="page" id="page3" data-animation="opacity"></div>
+  </div>
+  <script>
+    var cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', function (e) {
+      document.addEventListener("click", () => {
+        cursor.style.opacity = 0;
+        setTimeout(() => {
+          cursor.style.opacity = 1;
+        }, "100");
+
+      });
+      var mouseX = e.clientX;
+      var mouseY = e.clientY;
+      var cursorX = mouseX - 5;
+      var cursorY = mouseY - 5;
+
+      cursor.style.left = cursorX + 'px';
+      cursor.style.top = cursorY + 'px';
+    });
+
+    document.body.style.cursor = 'none';
+  </script>
+</body>
+
+</html>
